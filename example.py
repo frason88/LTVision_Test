@@ -9,7 +9,7 @@ from src import LTVexploratory
 import plotly.express as px
 import plotly.tools as tls  
 import os  
-
+import streamlit as st
 
 st.title("Customer Lifetime Value Analysis using LTVision")
 

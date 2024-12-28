@@ -18,3 +18,4 @@ notebook
 pre-commit
 streamlit
 openai
+flake8

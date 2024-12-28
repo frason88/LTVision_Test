@@ -16,3 +16,6 @@ ipython
 ipykernel
 notebook
 pre-commit
+streamlit
+pandas
+openai

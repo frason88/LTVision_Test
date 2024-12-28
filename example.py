@@ -9,7 +9,6 @@ from src import LTVexploratory
 import plotly.express as px
 import streamlit as st
 import plotly.tools as tls  # For converting Seaborn plots to Plotly figures
-from openai import OpenAI
 
 # Streamlit App Title
 st.title("Customer Lifetime Value Analysis using LTVision")

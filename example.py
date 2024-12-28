@@ -7,11 +7,10 @@ import numpy as np
 from src import LTVSyntheticData
 from src import LTVexploratory
 import plotly.express as px
-import streamlit as st
-import plotly.tools as tls  # For converting Seaborn plots to Plotly figures
-import os  # Import the os module to access environment variables
+import plotly.tools as tls  
+import os  
 
-# Streamlit App Title
+
 st.title("Customer Lifetime Value Analysis using LTVision")
 
 # Sidebar for user inputs

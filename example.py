@@ -9,6 +9,7 @@ from src import LTVexploratory
 import plotly.express as px
 import streamlit as st
 import plotly.tools as tls  # For converting Seaborn plots to Plotly figures
+import os  # Import the os module to access environment variables
 
 # Streamlit App Title
 st.title("Customer Lifetime Value Analysis using LTVision")
@@ -137,42 +138,45 @@ st.write(data_ltv_impact_ecomm)
 # DeepSeek LLM Integration for Summary of Insights
 st.header("Summary of Insights & Recommendations")
 
-# DeepSeek API Key (Replace with your actual API key)
-deepseek_api_key = "sk-bf2601ba1b0942c496c7e9ee502a9a86"
+# Fetch the DeepSeek API key from environment variables
+deepseek_api_key = os.environ.get("DEEPSEEK_API_KEY")  # Fetch the key from the environment
 
-# Initialize the OpenAI client
-client = OpenAI(api_key=deepseek_api_key, base_url="https://api.deepseek.com")
+if not deepseek_api_key:
+    st.error("DeepSeek API key not found in environment variables. Please set the 'DEEPSEEK_API_KEY' environment variable.")
+else:
+    # Initialize the OpenAI client
+    client = OpenAI(api_key=deepseek_api_key, base_url="https://api.deepseek.com")
 
-# Prepare the prompt for DeepSeek
-prompt = """
-Summarize the key insights from the LTVision analysis in bullet points. Focus on the following:
-1. Purchase frequency distribution.
-2. Top spenders' contribution to total revenue.
-3. Time to first purchase.
-4. Correlation between short-term and long-term revenue.
-5. Purchaser flow over time.
-6. pLTV opportunity size estimation for both scenarios.
-"""
+    # Prepare the prompt for DeepSeek
+    prompt = """
+    Summarize the key insights from the LTVision analysis in bullet points. Focus on the following:
+    1. Purchase frequency distribution.
+    2. Top spenders' contribution to total revenue.
+    3. Time to first purchase.
+    4. Correlation between short-term and long-term revenue.
+    5. Purchaser flow over time.
+    6. pLTV opportunity size estimation for both scenarios.
+    """
 
-# Call the DeepSeek API
-try:
-    response = client.chat.completions.create(
-        model="deepseek-chat",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant that summarizes insights in clear and concise bullet points."},
-            {"role": "user", "content": prompt},
-        ],
-        stream=False
-    )
+    # Call the DeepSeek API
+    try:
+        response = client.chat.completions.create(
+            model="deepseek-chat",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant that summarizes insights in clear and concise bullet points."},
+                {"role": "user", "content": prompt},
+            ],
+            stream=False
+        )
 
-    # Extract the generated summary
-    summary = response.choices[0].message.content
+        # Extract the generated summary
+        summary = response.choices[0].message.content
 
-    # Display the summary in Streamlit
-    st.write(summary)
+        # Display the summary in Streamlit
+        st.write(summary)
 
-except Exception as e:
-    st.error(f"An error occurred while generating the summary: {e}")
+    except Exception as e:
+        st.error(f"An error occurred while generating the summary: {e}")
 
 
 # Footer
